@@ -17,23 +17,29 @@
  * under the License.
  */
 
-.keyboard-container {
+package org.apache.guacamole.properties;
 
-    display: none;
-    text-align: center;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.apache.guacamole.GuacamoleException;
+import org.apache.guacamole.GuacamoleServerException;
 
-    width: 100%;
-    margin: 0;
-    padding: 0;
-
-    border-top: 1px solid black;
-    background: #222;
-    opacity: 0.85;
-
-    z-index: 1;
-
-}
-
-.keyboard-container.open {
-    display: block;
+/**
+ * A GuacamoleProperty whose value is a URI.
+ */
+public abstract class URIGuacamoleProperty implements GuacamoleProperty<URI> {
+    
+    @Override
+    public URI parseValue(String value) throws GuacamoleException {
+        
+        try {
+            return new URI(value);
+        }
+        catch (URISyntaxException e) {
+            throw new GuacamoleServerException("Value \"" + value
+                + "\" is not a valid URI.");
+        }
+        
+    }
+    
 }
